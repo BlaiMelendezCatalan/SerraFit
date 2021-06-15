@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blaimelcat.serrafit.databinding.ActivityMainBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 
+enum class ProviderType {
+    BASIC
+}
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
