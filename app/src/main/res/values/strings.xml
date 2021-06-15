@@ -15,10 +15,11 @@
     <string name="prompt_password">Password</string>
     <string name="prompt_username">User name</string>
     <string name="action_login">Log in</string>
-    <string name="register_text">Register if you do not have an account yet</string>
+    <string name="register_text">Click below if you do not have an account yet</string>
     <string name="action_register">Register</string>
     <string name="action_create_user">Create user</string>
     <string name="welcome">"Welcome !"</string>
+    <string name="logout_slideshow">Log out</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>

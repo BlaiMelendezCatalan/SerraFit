@@ -27,7 +27,7 @@ class CreateUserActivity : AppCompatActivity() {
             if (createUserEmail.text.isNotEmpty() && createUserPassword.text.isNotEmpty() &&
                                                             createUserUsername.text.isNotEmpty()) {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                                                                    createUserEmail.text.toString(),
+                    createUserEmail.text.toString(),
                     createUserPassword.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful) {
                         createUserProgBar.visibility = View.VISIBLE
@@ -46,8 +46,8 @@ class CreateUserActivity : AppCompatActivity() {
             .setTitle("Signed up!")
             .setMessage("You successfully registered")
             .setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
-                val mainIntent = Intent(this, LoginActivity::class.java)
-                startActivity(mainIntent)
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }).show()
     }
 
