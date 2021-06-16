@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -15,13 +16,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.blaimelcat.serrafit.databinding.ActivityMainBinding
 import com.blaimelcat.serrafit.ui.login.LoginActivity
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 
-enum class ProviderType {
-    BASIC
-}
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarMain.toolbar)
@@ -40,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -48,16 +47,21 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_log_out,
+                R.id.nav_reservations, R.id.nav_log_out,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val analytics: FirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        val bundle = Bundle()
-        bundle.putString("message", "Firebase integration complete")
-        analytics.logEvent("InitScreen", bundle)
+        // Set username and email values for nav header
+        val db = FirebaseFirestore.getInstance()
+        val bundle:Bundle? = intent.extras
+        setNavHeaderInfo(navView, db, bundle)
+
+        //val analytics: FirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        //val bundle = Bundle()
+        //bundle.putString("message", "Firebase integration complete")
+        //analytics.logEvent("InitScreen", bundle)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,6 +73,27 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun setNavHeaderInfo(navView: NavigationView, db: FirebaseFirestore, bundle: Bundle?) {
+        // Set username and email values for nav header
+        val headerView = navView.getHeaderView(0)
+        val usernameMain = headerView.findViewById<TextView>(R.id.username_main)
+        val emailMain = headerView.findViewById<TextView>(R.id.email_main)
+
+        val db = FirebaseFirestore.getInstance()
+
+        val bundle:Bundle? = intent.extras
+        val bundleEmail:String? = bundle?.getString("email")
+        if (bundleEmail != null) {
+            db.collection("users").document(
+                bundleEmail).get().addOnSuccessListener {
+                emailMain.text = bundleEmail
+                usernameMain.text = it.get("username") as String?
+                emailMain.invalidate()
+                usernameMain.invalidate()
+            }
+        }
     }
 
     fun logOut(item: MenuItem) {

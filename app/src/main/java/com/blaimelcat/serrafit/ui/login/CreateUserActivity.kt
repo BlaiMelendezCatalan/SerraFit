@@ -2,12 +2,14 @@ package com.blaimelcat.serrafit.ui.login
 
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.blaimelcat.serrafit.databinding.ActivityCreateUserBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 private lateinit var binding: ActivityCreateUserBinding
 
@@ -23,6 +25,8 @@ class CreateUserActivity : AppCompatActivity() {
         val createUserButton = binding.buttonCreateuserCreateuser
         val createUserProgBar = binding.progbarLoadingCreateuser
 
+        val db = FirebaseFirestore.getInstance()
+
         createUserButton.setOnClickListener {
             if (createUserEmail.text.isNotEmpty() && createUserPassword.text.isNotEmpty() &&
                                                             createUserUsername.text.isNotEmpty()) {
@@ -31,6 +35,13 @@ class CreateUserActivity : AppCompatActivity() {
                     createUserPassword.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful) {
                         createUserProgBar.visibility = View.VISIBLE
+                        val e = createUserEmail.text.toString()
+                        val u = createUserUsername.toString()
+                        db.collection("users").document(
+                            createUserEmail.text.toString()).set(
+                            hashMapOf("username" to createUserUsername.text.toString(),
+                                      "admin" to false)
+                        )
                         inflateLoginActivity()
                     } else {
                         showErrorAlert()

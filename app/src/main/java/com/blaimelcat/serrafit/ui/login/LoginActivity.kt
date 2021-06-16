@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
                     loginPassword.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful) {
                         loginLoadingProgBar.visibility = View.VISIBLE
-                        inflateMainActivity()
+                        inflateMainActivity(loginEmail.text.toString())
                     } else {
                         showErrorAlert()
                     }
@@ -42,8 +42,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun inflateMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun inflateMainActivity(email: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("email", email)
+        }
         startActivity(intent)
     }
 
