@@ -29,15 +29,15 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         loginLoginButton.setOnClickListener {
-            if (loginEmail.text.isNotEmpty() && loginPassword.text.isNotEmpty()) {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(loginEmail.text.toString(),
-                    loginPassword.text.toString()).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        loginLoadingProgBar.visibility = View.VISIBLE
-                        inflateMainActivity(loginEmail.text.toString())
-                    } else {
-                        showErrorAlert()
-                    }
+            val email = loginEmail.text.toString()
+            val password = loginPassword.text.toString()
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    loginLoadingProgBar.visibility = View.VISIBLE
+                    inflateMainActivity(email)
+                } else {
+                    showErrorAlert()
                 }
             }
         }
