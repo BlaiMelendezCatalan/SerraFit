@@ -1,14 +1,14 @@
 package com.blaimelcat.serrafit.ui.reservations
 
+import com.blaimelcat.serrafit.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.blaimelcat.serrafit.databinding.FragmentReservationsBinding
+
 
 class ReservationsFragment : Fragment() {
 
@@ -30,15 +30,20 @@ class ReservationsFragment : Fragment() {
         _binding = FragmentReservationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        binding.buttonAddSessionReservation.setOnClickListener {
+            addSession(inflater, container)
+        }
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun addSession(inflater: LayoutInflater, container: ViewGroup?){
+        val reservation = inflater.inflate(R.layout.reservation_module, container, false)
+        binding.reservationNest.addView(reservation)
     }
 }
