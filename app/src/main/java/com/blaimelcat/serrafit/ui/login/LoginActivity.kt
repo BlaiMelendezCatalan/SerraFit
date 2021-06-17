@@ -9,9 +9,12 @@ import com.blaimelcat.serrafit.MainActivity
 import com.blaimelcat.serrafit.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
-private lateinit var binding: ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -22,6 +25,8 @@ class LoginActivity : AppCompatActivity() {
         val loginLoginButton = binding.buttonLoginLogin
         val loginRegisterButton = binding.buttonRegisterLogin
         val loginLoadingProgBar = binding.progbarLoadingLogin
+
+        mAuth = FirebaseAuth.getInstance()
 
         loginLoginButton.setOnClickListener {
             if (loginEmail.text.isNotEmpty() && loginPassword.text.isNotEmpty()) {
@@ -42,7 +47,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun inflateMainActivity(email: String) {
+    override fun onStart() {
+        super.onStart()
+        val email = mAuth.currentUser?.email
+        if (email != null) {
+            inflateMainActivity(email)
+        }
+    }
+
+    private fun inflateMainActivity(email: String?) {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra("email", email)
         }
