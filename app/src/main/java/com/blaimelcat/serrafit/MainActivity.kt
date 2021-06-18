@@ -91,8 +91,6 @@ class MainActivity : AppCompatActivity() {
                 bundleEmail).get().addOnSuccessListener {
                 emailMain.text = bundleEmail
                 usernameMain.text = it.get("username") as String?
-                emailMain.invalidate()
-                usernameMain.invalidate()
             }
         }
     }
