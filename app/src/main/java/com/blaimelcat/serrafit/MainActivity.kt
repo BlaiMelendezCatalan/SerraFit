@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import com.blaimelcat.serrafit.databinding.ActivityMainBinding
 import com.blaimelcat.serrafit.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -50,13 +50,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_reservations, R.id.nav_log_out,
             ), drawerLayout
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
 
         // Set username and email values for nav header
         val db = FirebaseFirestore.getInstance()
-        val bundle:Bundle? = intent.extras
-        setNavHeaderInfo(navView, db, bundle)
+        val bundle: Bundle? = intent.extras
+        val bundleEmail: String? = bundle?.getString("email")
+        setNavHeaderInfo(navView, db, bundleEmail)
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+        passAdminToFragment(navController, db, bundleEmail)
 
         //val analytics: FirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         //val bundle = Bundle()
@@ -79,18 +83,32 @@ class MainActivity : AppCompatActivity() {
         finishAffinity()
     }
 
-    private fun setNavHeaderInfo(navView: NavigationView, db: FirebaseFirestore, bundle: Bundle?) {
-        // Set username and email values for nav header
+    private fun setNavHeaderInfo(navView: NavigationView, db: FirebaseFirestore,
+                                 bundleEmail: String?) {
+        // Get username and email values for nav header
         val headerView = navView.getHeaderView(0)
         val usernameMain = headerView.findViewById<TextView>(R.id.username_main)
         val emailMain = headerView.findViewById<TextView>(R.id.email_main)
 
-        val bundleEmail:String? = bundle?.getString("email")
+        // Set username and email values for nav header
         if (bundleEmail != null) {
             db.collection("users").document(
                 bundleEmail).get().addOnSuccessListener {
                 emailMain.text = bundleEmail
                 usernameMain.text = it.get("username") as String?
+            }
+        }
+    }
+
+    private fun passAdminToFragment(navController: NavController, db: FirebaseFirestore,
+                                    bundleEmail: String?) {
+        // Sets graphs while passing argument to the originating fragment
+        bundleEmail?.let { it ->
+            db.collection("users").document(it).get().addOnSuccessListener {
+                val admin = it.get("admin") as Boolean
+                val fragmentBundle = Bundle()
+                fragmentBundle.putBoolean("admin", admin)
+                navController.setGraph(R.navigation.mobile_navigation, fragmentBundle)
             }
         }
     }

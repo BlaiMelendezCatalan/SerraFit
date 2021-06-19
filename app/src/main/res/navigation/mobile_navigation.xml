@@ -9,6 +9,11 @@
         android:id="@+id/nav_reservations"
         android:name="com.blaimelcat.serrafit.ui.reservations.ReservationsFragment"
         android:label="@string/menu_reservations"
-        tools:layout="@layout/fragment_reservations" />
+        tools:layout="@layout/fragment_reservations" >
+        <argument
+            android:name="admin"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 
 </navigation>
