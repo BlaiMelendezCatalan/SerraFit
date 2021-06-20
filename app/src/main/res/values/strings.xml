@@ -25,5 +25,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="regex_str">[^a-z0-9 ]</string>
+    <string name="add_new_session">Add training day</string>
+    <string name="default_date">Wednesday 29/06/1988</string>
 
 </resources>
