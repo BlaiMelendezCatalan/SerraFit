@@ -21,7 +21,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button_add_day_reservation"
+        android:id="@+id/button_add_reservation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="10dp"

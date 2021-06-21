@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_reservations, R.id.nav_log_out,
+                R.id.nav_reservations_item, R.id.nav_log_out_item,
             ), drawerLayout
         )
 
@@ -55,12 +55,13 @@ class MainActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val bundle: Bundle? = intent.extras
         val bundleEmail: String? = bundle?.getString("email")
+        val bundleUsername: String? = bundle?.getString("username")
         setNavHeaderInfo(navView, db, bundleEmail)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        passAdminToFragment(navController, db, bundleEmail)
+        passDataToFragment(navController, db, bundleEmail)
 
         //val analytics: FirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         //val bundle = Bundle()
@@ -100,14 +101,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun passAdminToFragment(navController: NavController, db: FirebaseFirestore,
-                                    bundleEmail: String?) {
+    private fun passDataToFragment(navController: NavController, db: FirebaseFirestore,
+                                   bundleEmail: String?) {
         // Sets graphs while passing argument to the originating fragment
-        bundleEmail?.let { it ->
-            db.collection("users").document(it).get().addOnSuccessListener {
+        bundleEmail?.let { email ->
+            db.collection("users").document(email).get().addOnSuccessListener {
                 val admin = it.get("admin") as Boolean
+                val username = it.get("username") as String
                 val fragmentBundle = Bundle()
                 fragmentBundle.putBoolean("admin", admin)
+                fragmentBundle.putString("currentUser", username)
                 navController.setGraph(R.navigation.mobile_navigation, fragmentBundle)
             }
         }

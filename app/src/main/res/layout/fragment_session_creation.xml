@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    tools:context=".ui.reservations.SessionCreationFragment">
+
+
+    <TextView
+        android:id="@+id/date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/date"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/date_content_text"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/time"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/time_content_text"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/capacity_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/capacity"
+        android:textColor="@color/black" />
+
+    <NumberPicker
+        android:id="@+id/capacity_content_text"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <Button
+        android:id="@+id/accept_session_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create session"
+        android:layout_gravity="center"/>
+
+
+
+</LinearLayout>

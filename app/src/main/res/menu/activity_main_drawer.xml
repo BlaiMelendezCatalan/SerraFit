@@ -5,11 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_reservations"
+            android:id="@+id/nav_reservations_item"
             android:icon="@drawable/ic_menu_reservations"
             android:title="@string/menu_reservations" />
         <item
-            android:id="@+id/nav_log_out"
+            android:id="@+id/nav_log_out_item"
             android:title="@string/logout_slideshow"
             android:onClick="logOut"/>
     </group>

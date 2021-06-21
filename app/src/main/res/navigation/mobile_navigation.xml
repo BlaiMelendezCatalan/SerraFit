@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_reservations">
+    app:startDestination="@+id/nav_reservations_item">
 
     <fragment
-        android:id="@+id/nav_reservations"
+        android:id="@+id/nav_reservations_item"
         android:name="com.blaimelcat.serrafit.ui.reservations.ReservationsFragment"
         android:label="@string/menu_reservations"
         tools:layout="@layout/fragment_reservations" >
@@ -14,6 +14,11 @@
             android:name="admin"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="currentUser"
+            app:argType="string"
+            android:defaultValue="" />
+
     </fragment>
 
 </navigation>
