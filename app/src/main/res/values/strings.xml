@@ -32,5 +32,6 @@
     <string name="date">Select a date</string>
     <string name="time">Select a time</string>
     <string name="capacity">Select maximum capacity</string>
+    <string name="close">Close</string>
 
 </resources>

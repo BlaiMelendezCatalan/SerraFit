@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -24,6 +25,7 @@ class ReservationsFragment : Fragment() {
     private var _binding: FragmentReservationsBinding? = null
     private lateinit var db: FirebaseFirestore
     private val sessionCreationFragment = SessionCreationFragment()
+    private val userListFragment = UserListFragment()
     private var admin: Boolean = false
     private var currentUsername: String = ""
     private val ORANGE = floatArrayOf(32F, 98F, 91F)
@@ -56,7 +58,7 @@ class ReservationsFragment : Fragment() {
 
                 addNewSession(trainingDate!!, trainingTime!!, capacity, inflater, container)
             }
-            sessionCreationFragment.show(parentFragmentManager, "hello")
+            sessionCreationFragment.show(parentFragmentManager, "")
         }
 
         val args by navArgs<ReservationsFragmentArgs>()
@@ -170,7 +172,15 @@ class ReservationsFragment : Fragment() {
         }
 
         fun adminClickListener(reservationButton: Button, db: FirebaseFirestore) {
-
+            val currentTag = reservationButton.tag.toString()
+            val bundle = bundleOf(
+                "tag" to currentTag
+            )
+            userListFragment.arguments = bundle
+            setFragmentResultListener("requestKey") { _, _ ->
+                userListFragment.dismiss()
+            }
+            userListFragment.show(parentFragmentManager, "")
         }
 
         fun addExistingSession(tag: String, trainingDate: String, trainingTime: String,
