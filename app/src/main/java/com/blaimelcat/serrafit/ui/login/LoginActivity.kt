@@ -55,6 +55,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        finishAffinity()
+    }
+
     private fun inflateMainActivity(email: String?) {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra("email", email)
