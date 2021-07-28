@@ -1,5 +1,6 @@
 package com.blaimelcat.serrafit.ui.reservations
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -61,12 +62,14 @@ class ReservationsFragment : Fragment() {
             sessionCreationFragment.show(parentFragmentManager, "")
         }
 
-        val args by navArgs<ReservationsFragmentArgs>()
-        admin = args.admin
-        currentUsername = args.currentUser
+        val sharedPref = activity!!.getPreferences(Context.MODE_PRIVATE)
+        admin = sharedPref.getBoolean("admin", false)
         if (!admin) {
             binding.buttonAddReservation.visibility = View.GONE
         }
+
+        val args by navArgs<ReservationsFragmentArgs>()
+        currentUsername = args.currentUser
 
         loadTrainingDays(inflater, container, db)
 

@@ -1,5 +1,6 @@
 package com.blaimelcat.serrafit
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -55,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val bundle: Bundle? = intent.extras
         val bundleEmail: String? = bundle?.getString("email")
-        val bundleUsername: String? = bundle?.getString("username")
         setNavHeaderInfo(navView, db, bundleEmail)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -109,6 +109,11 @@ class MainActivity : AppCompatActivity() {
                 val admin = it.get("admin") as Boolean
                 val username = it.get("username") as String
                 val fragmentBundle = Bundle()
+                val sharedPref = getPreferences(Context.MODE_PRIVATE)
+                with (sharedPref.edit()) {
+                    putBoolean("admin", admin)
+                    apply()
+                }
                 fragmentBundle.putBoolean("admin", admin)
                 fragmentBundle.putString("currentUser", username)
                 navController.setGraph(R.navigation.mobile_navigation, fragmentBundle)
@@ -117,6 +122,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun logOut(item: MenuItem) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            remove("admin")
+            apply()
+        }
         FirebaseAuth.getInstance().signOut()
         inflateLoginActivity()
     }
