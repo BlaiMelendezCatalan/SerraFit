@@ -30,7 +30,7 @@ class ReservationsFragment : Fragment() {
     private var admin: Boolean = false
     private var currentUsername: String = ""
     private val ORANGE = floatArrayOf(32F, 98F, 91F)
-    private val PURPLE = floatArrayOf(265F, 100F, 47F)
+    private val PURPLE = floatArrayOf(265F, 50F, 47F)
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -98,7 +98,7 @@ class ReservationsFragment : Fragment() {
     private fun formatDateFromTextToKey(dayText: String): String {
         val args = dayText.split(" ")[1].split("/")
         var day = args[0]
-        var month = (args[1].toInt() + 1).toString()
+        var month = (args[1].toInt()).toString()
         val year = args[2]
 
         if (month.length == 1) {
@@ -156,7 +156,8 @@ class ReservationsFragment : Fragment() {
                         updateHashMap as Map<String, Any>)
                     val newText = "$currTrainingDate   $currTrainingTime\n$updatedOccupation/$currMaxCapacity"
                     reservationButton.text = newText
-                    reservationButton.setBackgroundColor(Color.HSVToColor(PURPLE))
+                    reservationButton.setBackgroundColor(Color.HSVToColor(128, PURPLE))
+                    reservationButton.setTextColor(Color.DKGRAY)
                 // If user has not booked this session yet, add it
                 } else {
                     currUsers.add(currentUsername)
@@ -170,6 +171,7 @@ class ReservationsFragment : Fragment() {
                     val newText = "$currTrainingDate   $currTrainingTime\n$updatedOccupation/$currMaxCapacity"
                     reservationButton.text = newText
                     reservationButton.setBackgroundColor(Color.HSVToColor(ORANGE))
+                    reservationButton.setTextColor(Color.WHITE)
                 }
             }
         }
@@ -195,8 +197,10 @@ class ReservationsFragment : Fragment() {
             reservationButton.text= "$trainingDate   $trainingTime\n$occupation/$maxCapacity"
             if (currentUsername in users) {
                 reservationButton.setBackgroundColor(Color.HSVToColor(ORANGE))
+                reservationButton.setTextColor(Color.WHITE)
             } else {
-                reservationButton.setBackgroundColor(Color.HSVToColor(PURPLE))
+                reservationButton.setBackgroundColor(Color.HSVToColor(128, PURPLE))
+                reservationButton.setTextColor(Color.DKGRAY)
             }
             reservationButton.setOnClickListener {
                 if (admin) {

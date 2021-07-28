@@ -9,14 +9,18 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_reservation"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="20dp"
+        android:paddingBottom="15dp">
 
         <LinearLayout
             android:id="@+id/reservation_nest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:animateLayoutChanges="true">
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
 
         </LinearLayout>
     </ScrollView>
