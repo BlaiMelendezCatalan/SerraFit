@@ -18,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import java.util.*
 import kotlin.collections.ArrayList
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class ReservationsFragment : Fragment() {
@@ -223,9 +225,16 @@ class ReservationsFragment : Fragment() {
                 val occupation = data!!["occupation"] as Long
                 val maxCapacity = data!!["maxCapacity"] as Long
                 val users = data!!["users"] as ArrayList<String>
-                addExistingSession(tag, trainingDate, trainingTime, occupation.toInt(),
-                                   maxCapacity.toInt(), users, inflater, container
-                )
+                // Check if session has already happened
+                val currDateTime = LocalDateTime.now()
+                val currDateTimeString = currDateTime.format(
+                    DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+                if (tag > currDateTimeString) {
+                    addExistingSession(
+                        tag, trainingDate, trainingTime, occupation.toInt(),
+                        maxCapacity.toInt(), users, inflater, container
+                    )
+                }
             }
         }
     }
