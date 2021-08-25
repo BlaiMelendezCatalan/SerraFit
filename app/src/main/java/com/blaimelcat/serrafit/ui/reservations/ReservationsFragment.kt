@@ -64,14 +64,12 @@ class ReservationsFragment : Fragment() {
             sessionCreationFragment.show(parentFragmentManager, "")
         }
 
-        val sharedPref = activity!!.getPreferences(Context.MODE_PRIVATE)
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
         admin = sharedPref.getBoolean("admin", false)
+        currentUsername = sharedPref.getString("currentUsername", "").toString()
         if (!admin) {
             binding.buttonAddReservation.visibility = View.GONE
         }
-
-        val args by navArgs<ReservationsFragmentArgs>()
-        currentUsername = args.currentUser
 
         loadTrainingDays(inflater, container, db)
 
@@ -146,7 +144,7 @@ class ReservationsFragment : Fragment() {
                     showSessionFullAlert()
                     return@addOnSuccessListener
                 }
-                // If user has already booked this session, remove it
+                // If user has already booked this session, remove the user
                 if (currentUsername in currUsers) {
                     currUsers.remove(currentUsername)
                     val updatedOccupation = currUsers.size

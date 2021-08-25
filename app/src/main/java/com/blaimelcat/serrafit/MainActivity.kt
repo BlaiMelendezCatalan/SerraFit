@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
                 val sharedPref = getPreferences(Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
                     putBoolean("admin", admin)
+                    putString("currentUsername", username)
                     apply()
                 }
                 fragmentBundle.putBoolean("admin", admin)
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
             remove("admin")
+            remove("currentUsername")
             apply()
         }
         FirebaseAuth.getInstance().signOut()
